@@ -1,0 +1,176 @@
+const apiUrl = 'https://srijandubey.github.io/campus-api-mock/SRM-C1-25.json';
+let doctors = [];
+
+const input = document.getElementById('autocomplete-input');
+const suggestionsBox = document.getElementById('suggestions');
+const doctorList = document.getElementById('doctor-list');
+const specialtiesDiv = document.getElementById('specialties');
+
+async function fetchDoctors() {
+      const response = await fetch(apiUrl);
+        doctors = await response.json();
+          renderSpecialties();
+            applyFiltersFromURL();
+}
+
+function renderDoctors(filtered) {
+      doctorList.innerHTML = '';
+        filtered.forEach(doctor => {
+                const card = document.createElement('div');
+                    card.className = 'doctor-card';
+                        card.setAttribute('data-testid', 'doctor-card');
+                            card.innerHTML = `
+                                  <h4 data-testid="doctor-name">${doctor.name}</h4>
+                                        <p data-testid="doctor-specialty">${doctor.specialty.join(', ')}</p>
+                                              <p data-testid="doctor-experience">${doctor.experience} years</p>
+                                                    <p data-testid="doctor-fee">$${doctor.fee}</p>
+                                                        `;
+                                                            doctorList.appendChild(card);
+        });
+}
+
+function renderSpecialties() {
+      const allSpecialties = new Set();
+        doctors.forEach(doc => doc.specialty.forEach(s => allSpecialties.add(s)));
+
+          specialtiesDiv.innerHTML = '';
+            allSpecialties.forEach(spec => {
+                    const id = `filter-specialty-${spec.replace(/[^a-zA-Z0-9]/g, '-').replace(/-+/g, '-')}`;
+                        const label = document.createElement('label');
+                            label.innerHTML = `<input type="checkbox" value="${spec}" data-testid="${id}" /> ${spec}`;
+                                specialtiesDiv.appendChild(label);
+            });
+}
+
+function displaySuggestions(matches) {
+      suggestionsBox.innerHTML = '';
+        matches.slice(0, 3).forEach(doc => {
+                const item = document.createElement('div');
+                    item.className = 'suggestion-item';
+                        item.setAttribute('data-testid', 'suggestion-item');
+                            item.textContent = doc.name;
+                                item.onclick = () => {
+                                          input.value = doc.name;
+                                                updateURL({ search: doc.name });
+                                };
+                                    suggestionsBox.appendChild(item);
+        });
+}
+
+input.addEventListener('input', () => {
+      const term = input.value.toLowerCase();
+        if (!term) {
+                suggestionsBox.innerHTML = '';
+                    return;
+        }
+          const matches = doctors.filter(doc => doc.name.toLowerCase().includes(term));
+            displaySuggestions(matches);
+});
+
+input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+            updateURL({ search: input.value });
+                suggestionsBox.innerHTML = '';
+      }
+});
+
+document.querySelectorAll('input[name="consultation"], input[name="sort"]').forEach(input =>
+  input.addEventListener('change', () => updateURLFromInputs())
+  );
+
+  specialtiesDiv.addEventListener('change', () => updateURLFromInputs());
+
+  function updateURLFromInputs() {
+      const query = {};
+        const search = document.getElementById('autocomplete-input').value.trim();
+          if (search) query.search = search;
+
+            const consult = document.querySelector('input[name="consultation"]:checked');
+              if (consult) query.consultation = consult.value;
+
+                const specialties = Array.from(document.querySelectorAll('#specialties input:checked')).map(i => i.value);
+                  if (specialties.length) query.specialties = specialties.join(',');
+
+                    const sort = document.querySelector('input[name="sort"]:checked');
+                      if (sort) query.sort = sort.value;
+
+                        updateURL(query);
+  }
+
+  function updateURL(params) {
+      const newQuery = new URLSearchParams(params).toString();
+        history.pushState(null, '', '?' + newQuery);
+          applyFiltersFromURL();
+  }
+
+  function applyFiltersFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+        const searchTerm = urlParams.get('search')?.toLowerCase() || '';
+          const consultation = urlParams.get('consultation');
+            const sort = urlParams.get('sort');
+              const specialties = urlParams.get('specialties')?.split(',') || [];
+
+                document.getElementById('autocomplete-input').value = searchTerm || '';
+
+                  if (consultation) {
+                        document.querySelectorAll('input[name="consultation"]').forEach(i => {
+                                  i.checked = i.value === consultation;
+                        });
+                  }
+
+                    document.querySelectorAll('#specialties input[type="checkbox"]').forEach(cb => {
+                            cb.checked = specialties.includes(cb.value);
+                    });
+
+                      if (sort) {
+                            document.querySelectorAll('input[name="sort"]').forEach(i => {
+                                      i.checked = i.value === sort;
+                            });
+                      }
+
+                        let result = [...doctors];
+
+                          if (searchTerm) {
+                                result = result.filter(doc => doc.name.toLowerCase().includes(searchTerm));
+                          }
+
+                            if (consultation) {
+                                    result = result.filter(doc => doc.consultation_mode.includes(consultation));
+                            }
+
+                              if (specialties.length) {
+                                    result = result.filter(doc => doc.specialty.some(s => specialties.includes(s)));
+                              }
+
+                                if (sort === 'fees') result.sort((a, b) => a.fee - b.fee);
+                                  else if (sort === 'experience') result.sort((a, b) => b.experience - a.experience);
+
+                                    renderDoctors(result);
+  }
+
+  window.onpopstate = applyFiltersFromURL;
+
+  fetchDoctors();
+                              }
+                            }
+                          }
+                            })
+                      }
+                    })
+                        })
+                  }
+  }
+  }
+  }
+      }
+})
+        }
+})
+                                }
+        })
+}
+            })
+}
+        })
+}
+}
