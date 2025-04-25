@@ -27,7 +27,7 @@ export default function DoctorCard({ doctor }) {
       </p>
 
       <p className="text-sm" data-testid="doctor-fee">
-        Fees: ₹{doctor.fees}
+        Fees: {doctor.fees}
       </p>
     </div>
   );
