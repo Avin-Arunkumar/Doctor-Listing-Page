@@ -12,22 +12,9 @@ const specialtyOptions = [
   "Physiotherapist",
   "Endocrinologist",
   "Orthopaedic",
-  "Ophthalmologist",
-  "Gastroenterologist",
-  "Pulmonologist",
-  "Psychiatrist",
-  "Urologist",
-  "Dietitian/Nutritionist",
-  "Psychologist",
-  "Sexologist",
-  "Nephrologist",
-  "Neurologist",
-  "Oncologist",
-  "Ayurveda",
-  "Homeopath",
 ];
 
-export default function FiltersPanel({
+function FiltersPanel({
   consultationMode,
   setConsultationMode,
   specialties,
@@ -35,102 +22,87 @@ export default function FiltersPanel({
   sortOption,
   setSortOption,
 }) {
-  const onModeChange = (e) => setConsultationMode(e.target.value);
-  const onSpecChange = (e) => {
-    const val = e.target.value;
-    if (e.target.checked) setSpecialties([...specialties, val]);
-    else setSpecialties(specialties.filter((s) => s !== val));
-  };
-  const onSortChange = (e) => setSortOption(e.target.value);
-
   return (
-    <aside className="w-64 border-r p-4">
+    <div className="bg-white p-4 rounded-lg shadow">
       {/* Consultation Mode */}
-      <div>
-        <h3 className="font-semibold mb-2" data-testid="filter-header-moc">
-          Consultation Mode
-        </h3>
-        <label className="block">
-          <input
-            type="radio"
-            name="mode"
-            value="Video Consult"
-            checked={consultationMode === "Video Consult"}
-            onChange={onModeChange}
-            data-testid="filter-video-consult"
-          />{" "}
-          Video Consult
-        </label>
-        <label className="block">
-          <input
-            type="radio"
-            name="mode"
-            value="In Clinic"
-            checked={consultationMode === "In Clinic"}
-            onChange={onModeChange}
-            data-testid="filter-in-clinic"
-          />{" "}
-          In Clinic
-        </label>
+      <div className="mb-6">
+        <h3 className="font-semibold text-lg mb-3">Consultation Mode</h3>
+        <div className="space-y-2">
+          <label className="flex items-center">
+            <input
+              type="radio"
+              name="mode"
+              checked={consultationMode === "Video Consult"}
+              onChange={() => setConsultationMode("Video Consult")}
+              className="mr-2"
+            />
+            Video Consult
+          </label>
+          <label className="flex items-center">
+            <input
+              type="radio"
+              name="mode"
+              checked={consultationMode === "In Clinic"}
+              onChange={() => setConsultationMode("In Clinic")}
+              className="mr-2"
+            />
+            In Clinic
+          </label>
+        </div>
       </div>
 
-      {/* Specialities */}
-      <div className="mt-4">
-        <h3
-          className="font-semibold mb-2"
-          data-testid="filter-header-speciality"
-        >
-          Speciality
-        </h3>
-        <div className="max-h-64 overflow-y-auto">
-          {specialtyOptions.map((spec, i) => {
-            const tid = `filter-specialty-${spec
-              .replace(/\s+/g, "-")
-              .replace("/", "-")}`;
-            return (
-              <label className="block" key={i}>
-                <input
-                  type="checkbox"
-                  value={spec}
-                  checked={specialties.includes(spec)}
-                  onChange={onSpecChange}
-                  data-testid={tid}
-                />{" "}
-                {spec}
-              </label>
-            );
-          })}
+      {/* Specialties */}
+      <div className="mb-6">
+        <h3 className="font-semibold text-lg mb-3">Speciality</h3>
+        <div className="space-y-2 max-h-64 overflow-y-auto">
+          {specialtyOptions.map((spec) => (
+            <label key={spec} className="flex items-center">
+              <input
+                type="checkbox"
+                checked={specialties.includes(spec)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSpecialties([...specialties, spec]);
+                  } else {
+                    setSpecialties(specialties.filter((s) => s !== spec));
+                  }
+                }}
+                className="mr-2"
+              />
+              {spec}
+            </label>
+          ))}
         </div>
       </div>
 
       {/* Sort */}
-      <div className="mt-4">
-        <h3 className="font-semibold mb-2" data-testid="filter-header-sort">
-          Sort
-        </h3>
-        <label className="block">
-          <input
-            type="radio"
-            name="sort"
-            value="fees"
-            checked={sortOption === "fees"}
-            onChange={onSortChange}
-            data-testid="sort-fees"
-          />{" "}
-          Fees (Asc)
-        </label>
-        <label className="block">
-          <input
-            type="radio"
-            name="sort"
-            value="experience"
-            checked={sortOption === "experience"}
-            onChange={onSortChange}
-            data-testid="sort-experience"
-          />{" "}
-          Experience (Desc)
-        </label>
+      <div>
+        <h3 className="font-semibold text-lg mb-3">Sort</h3>
+        <div className="space-y-2">
+          <label className="flex items-center">
+            <input
+              type="radio"
+              name="sort"
+              checked={sortOption === "fees"}
+              onChange={() => setSortOption("fees")}
+              className="mr-2"
+            />
+            Fees (Low to High)
+          </label>
+          <label className="flex items-center">
+            <input
+              type="radio"
+              name="sort"
+              checked={sortOption === "experience"}
+              onChange={() => setSortOption("experience")}
+              className="mr-2"
+            />
+            Experience (High to Low)
+          </label>
+        </div>
       </div>
-    </aside>
+    </div>
   );
 }
+
+export default FiltersPanel;

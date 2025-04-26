@@ -1,14 +1,50 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-export default function Navbar() {
+function Navbar() {
   return (
-    <nav className="bg-blue-600 text-white p-4">
-      <div className="container mx-auto">
-        <Link to="/" className="text-xl font-bold">
-          Doctor Listing
-        </Link>
+    <header className="bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 py-3">
+        <div className="flex justify-between items-center">
+          {/* Logo/Brand */}
+          <div className="flex items-center">
+            <svg
+              className="h-6 w-6 text-blue-600"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+              />
+            </svg>
+            <h1 className="ml-2 text-lg font-semibold text-gray-800">
+              DoctorFinder
+            </h1>
+          </div>
+
+          {/* Simple Navigation */}
+          <nav className="flex space-x-4">
+            <a
+              href="#"
+              className="px-3 py-1 text-sm text-gray-600 hover:text-blue-600"
+            >
+              Doctors
+            </a>
+            <a
+              href="#"
+              className="px-3 py-1 text-sm text-gray-600 hover:text-blue-600"
+            >
+              About
+            </a>
+          </nav>
+        </div>
       </div>
-    </nav>
+    </header>
   );
 }
+
+export default Navbar;
