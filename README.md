@@ -1,40 +1,32 @@
-# Doctor Listing Page
+# 🩺 Doctor Listing Platform
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://doctor-listing-page.vercel.app)
-![React](https://img.shields.io/badge/React-18.2-blue?logo=react)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.3-blue?logo=tailwind-css)
+A fast and responsive doctor listing web application built with **Vite**, **React**, and **Tailwind CSS** — deployed live on **Vercel**.
 
-A responsive web application for browsing and filtering doctors by specialty, consultation mode, and other criteria.
+🌐 **Live Project**: https://doctor-listing-page-qrbw.vercel.app/
 
-![Doctor Listing Screenshot](./public/screenshot.png) <!-- Add your screenshot later -->
+---
 
-## Features
+## 📌 Project Overview
 
-- 🏥 Filter doctors by:
-  - Consultation mode (Video/In-Clinic)
-  - Medical specialties
-  - Sort by fees or experience
-- 📱 Fully responsive design
-- ⚡ Fast performance with Vite
-- 🌈 Modern UI with Tailwind CSS
+This web app allows users to search, filter, and sort through a list of doctors with an intuitive interface. All functionalities like filtering by consultation type, specialties, and sorting by experience or price are handled **entirely on the frontend** using **URL query parameters**.
 
-## Technologies Used
+## ✨ Features
 
-- React 18
-- Tailwind CSS 3
-- Vite (Build Tool)
-- React Icons
-- GitHub Pages/Vercel (Deployment)
+- 🔍 **Autocomplete Search** for doctor names
+- 🧑‍⚕️ **Filter Panel** with:
+  - Consultation Type (Online/In-person)
+  - Specialties
+  - Sorting options (Price/Experience)
+- ⚙️ **Frontend-only filtering & sorting**
+- 🧪 Includes required `data-testid` attributes for Campus Assessment test cases
+- ⚡ Built with **Vite** for lightning-fast performance
+- 💅 Styled using **Tailwind CSS**
+- 🌐 Fully deployed on **Vercel**
 
-## Getting Started
+## 🚀 Getting Started
 
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm (v8 or higher)
-
-### Installation
-
-1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/doctor-listing-page.git
+git clone https://github.com/your-username/doctor-list.git
+cd doctor-list
+npm install
+npm run dev
